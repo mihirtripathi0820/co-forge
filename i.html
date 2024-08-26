@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Articles</title>
+    <style>
+        body {
+            font-family: 'Gothic', Arial, sans-serif;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        h1 {
+            color: #ff4500;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 36px;
+            text-shadow: 2px 2px 4px #000;
+            animation: fadeInDown 1s ease;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideInLeft 1s ease;
+        }
+
+        label {
+            font-weight: bold;
+            color: #ff4500;
+        }
+
+        select, input[type="submit"], a {
+            padding: 8px 10px;
+            margin-left: 10px;
+            border-radius: 3px;
+            border: 1px solid #666;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        select:focus, input[type="submit"]:focus, a:focus {
+            outline: none;
+        }
+
+        input[type="submit"], a {
+            background-color: #ff4500;
+            border-color: #ff4500;
+        }
+
+        input[type="submit"]:hover, a:hover {
+            background-color: #cc3700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #666;
+            text-align: left;
+        }
+
+        th {
+            background-color: #222;
+        }
+
+        #articles-container {
+            opacity: 0;
+            animation: fadeIn 2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>News Articles</h1>
+    <form method="GET" action="/" class="animated fadeInDown">
+        <div class="filters">
+            <label for="search_publisher">Filter by Author:</label>
+            <select id="search_publisher" name="search_publisher">
+                <option value="">All Authors</option>
+                {% for author in authors %}
+                <option value="{{ author }}">{{ author }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="search_title">Filter by Title:</label>
+            <select id="search_title" name="search_title">
+                <option value="">All Titles</option>
+                {% for title in titles %}
+                <option value="{{ title }}">{{ title }}</option>
+                {% endfor %}
+            </select>
+
+            <input type="submit" value="Apply Filters" class="animated pulse infinite">
+            <a href="{{ url_for('reset_filters') }}" class="animated pulse infinite">Clear Filters</a>
+        </div>
+    </form>
+    <div id="articles-container">
+        {{ articles|safe }}
+    </div>
+</body>
+</html>
